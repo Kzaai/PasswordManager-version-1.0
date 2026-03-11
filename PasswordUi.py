@@ -38,31 +38,28 @@ class PasswordGenerator(ctk.CTk):
         self.button_add = ctk.CTkButton(self.tabview.tab("Generator"), text="GENERUJ HASŁO", command=self.generuj_haslo, cursor="hand2")
         self.button_add.pack(pady=10)
     #----Hasła do wyboru ------
+
         self.wybierz = ctk.CTkTextbox(self.tabview.tab("Generator"), width=200, height=200, state ="disabled")
         self.wybierz.pack(pady=10)
 
+        #Kolor tagów
+        self.wybierz.tag_config("active_line", background="red", foreground="white")
+        self.wybierz.bind("<Button-1>", self.podswielt_wybor)
+        
+
         self.button_add2 = ctk.CTkButton(self.tabview.tab("Generator"), text = "ZAPISZ WYBRANE HASŁA", command=self.zapisz_hasla, cursor="hand2")
         self.button_add2.pack(pady=10)
-
-
         #---- Zakładka: Wygenerowane -----
-
         self.wygenerowane = ctk.CTkLabel(self.tabview.tab("Wygenerowane"), text="Wygenerowane hasło:")
         self.wygenerowane.pack(pady=10)
         self.textbox = ctk.CTkTextbox(self.tabview.tab("Wygenerowane"), width=300, height=400, font=("Arial", 16), state ="disabled")
         self.textbox.pack(pady=10)
-
-
-
-
         #-----Pzycissk Zapisu na dole -----
 
         self.button_save = ctk.CTkButton(self, text="ZAPISZ I WYJDŹ ", command=self.save_quit, cursor="hand2")
         self.button_save.pack(pady=10)
         
-        
-
-       
+              
         try:
             with open(SCIEZKA_PLIKU, "r", encoding="utf-8") as plik:
 
@@ -127,7 +124,17 @@ class PasswordGenerator(ctk.CTk):
         self.wybierz.configure(state='disabled')
         self.textbox.configure(state="disabled")
 
+    def podswielt_wybor(self, even=None):
+        
+        self.after(10, self._wykonaj_malowanie)
+        
 
+    def _wykonaj_malowanie(self):
+       #Czyscimy stare podswietlenie okna
+        self.wybierz.configure(state="normal")
+        self.wybierz.tag_remove("active_line", "1.0", "end")
+        self.wybierz.tag_add("active_line", "insert linestart", "insert lineend +1c")
+        self.wybierz.configure(state="disabled")
 
     def save_quit(self):
         linie = self.textbox.get("1.0", "end-1c").splitlines()
