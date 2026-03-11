@@ -37,7 +37,7 @@ class PasswordGenerator(ctk.CTk):
 
         self.button_add = ctk.CTkButton(self.tabview.tab("Generator"), text="GENERUJ HASŁO", command=self.generuj_haslo, cursor="hand2")
         self.button_add.pack(pady=10)
-
+    #----Hasła do wyboru ------
         self.wybierz = ctk.CTkTextbox(self.tabview.tab("Generator"), width=200, height=200, state ="disabled")
         self.wybierz.pack(pady=10)
 
@@ -83,18 +83,21 @@ class PasswordGenerator(ctk.CTk):
             dlugosc = int(self.entry.get())
             znaki = string.ascii_letters + string.digits + string.punctuation  
 
-            haslo = ""
             
             #Petla While
+            for i in range(5):
+                
+                haslo = ""
+                for i in range(dlugosc):
+                    haslo += random.choice(znaki)
 
-            while len(haslo) < dlugosc:
-                haslo += random.choice(znaki)
+                    
 
-            self.textbox.configure (state="normal")
-            self.textbox.insert("end", f"{haslo}\n")
-            self.textbox.configure(state="disabled")
-            self.wygenerowane.configure(text=f" Wygenerowane hasło: {haslo}")
-            self.entry.delete(0, "end")
+                self.wybierz.configure (state="normal")
+                self.wybierz.insert("end", f"{haslo}\n")
+                self.wybierz.configure(state="disabled")
+                self.wygenerowane.configure(text=f" Wygenerowane hasło: {haslo}")
+                self.entry.delete(0, "end")
 
 
         except ValueError:
