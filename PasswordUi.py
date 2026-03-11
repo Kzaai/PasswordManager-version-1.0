@@ -104,7 +104,29 @@ class PasswordGenerator(ctk.CTk):
             self.wygenerowane.configure(text="Podaj liczbę całkowitą")
 
     def zapisz_hasla(self):
-        pass
+        #Wybieram haslo lub hasla do zapisania
+        wybrane = self.wybierz.get("insert linestart", "insert lineend").strip()
+
+
+        if wybrane: #Sprawdzam pustą linie
+            self.textbox.configure(state="normal")
+
+
+            if wybrane not in self.textbox.get("1.0", "end"):
+                self.textbox.insert("end", f"{wybrane} + \n")
+
+
+                #Usuwam jedno haslo z listy wyboru
+
+                self.wybierz.configure(state='normal')
+                self.wybierz.delete("insert linestart", "insert lineend + 1c" )
+                
+
+                self.wygenerowane.configure(text=f" Wybrane hasło: {wybrane}")
+
+        self.wybierz.configure(state='disabled')
+        self.textbox.configure(state="disabled")
+
 
 
     def save_quit(self):
