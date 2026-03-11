@@ -1,21 +1,16 @@
-# 🔐 Password Generator v1.0
+# 🔐 Password Generator Pro v1.1
 
-A modern desktop application for generating secure, randomized passwords. This project focuses on implementing `while` loop logic, string manipulation, and persistent data storage using JSON.
+A sophisticated desktop security tool built with Python. This version introduces advanced logic for multi-password generation and interactive data management between UI components.
 
-## ✨ Key Features
-* **Modern GUI:** Built with `CustomTkinter` for a sleek, dark/light mode interface.
-* **Smart Generation:** Uses `random` and `string` modules to ensure high-entropy passwords.
-* **Persistent History:** Saves your generated passwords to a local `passwords.json` file.
-* **Tabview Navigation:** Separate tabs for generating new passwords and viewing history.
-* **Error Handling:** Robust validation for user input (ensures password length is a number).
+## 🚀 New Engineering Features (v1.1)
+* **Nested Loop Logic:** Implemented a "Matrix" generation system (a `while` loop inside a `for` loop) to build 5 unique passwords simultaneously.
+* **Smart Selection System:** Interactive "Stage Area" where users can preview 5 options and pick only the preferred one to save.
+* **Duplicate Prevention:** Integrated a real-time check to prevent saving the same password twice to the database.
+* **State Management:** Professional UI locking (`state="disabled"`) to ensure data integrity and prevent unauthorized manual editing.
+* **Persistent JSON Storage:** Robust data flow from RAM to a structured JSON file.
 
 ## 🛠️ Tech Stack
 * **Language:** Python 3.x
-* **Library:** CustomTkinter (GUI)
-* **Data Format:** JSON
-* **Version Control:** Git / GitHub
-
-## 🚀 How to Run
-1. Clone the repository.
-2. Install requirements: `pip install customtkinter`.
-3. Run the script: `python PasswordUi.py`
+* **GUI:** CustomTkinter (Modern UI)
+* **Logic:** Random, String, Nested Loops
+* **Storage:** JSON Flat-file database
