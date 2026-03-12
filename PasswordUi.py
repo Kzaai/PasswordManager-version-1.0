@@ -55,6 +55,8 @@ class PasswordGenerator(ctk.CTk):
         self.textbox = ctk.CTkTextbox(self.tabview.tab("Wygenerowane"), width=300, height=400, font=("Arial", 16), state ="disabled")
         self.textbox.pack(pady=10)
 
+        
+
         self.button_delete = ctk.CTkButton(self.tabview.tab("Wygenerowane"), text="USUŃ HASŁO", command=self.usun_haslo, cursor="hand2")
         self.button_delete.pack(pady=10)
         #-----Pzycissk Zapisu na dole -----
