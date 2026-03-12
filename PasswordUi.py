@@ -44,7 +44,7 @@ class PasswordGenerator(ctk.CTk):
 
         #Kolor tagów
         self.wybierz.tag_config("active_line", background="red", foreground="white")
-        self.wybierz.bind("<Button-1>", self.podswielt_wybor)
+        self.wybierz.bind("<Button-1>", lambda e: self.podswielt_wybor(self.wybierz))
         
 
         self.button_add2 = ctk.CTkButton(self.tabview.tab("Generator"), text = "ZAPISZ WYBRANE HASŁA", command=self.zapisz_hasla, cursor="hand2")
@@ -56,6 +56,8 @@ class PasswordGenerator(ctk.CTk):
         self.textbox.pack(pady=10)
 
         
+        self.textbox.tag_config("active_line", background="red", foreground="white")
+        self.textbox.bind("<Button-1>", lambda e: self.podswielt_wybor(self.textbox))
 
         self.button_delete = ctk.CTkButton(self.tabview.tab("Wygenerowane"), text="USUŃ HASŁO", command=self.usun_haslo, cursor="hand2")
         self.button_delete.pack(pady=10)
@@ -129,9 +131,9 @@ class PasswordGenerator(ctk.CTk):
         self.wybierz.configure(state='disabled')
         self.textbox.configure(state="disabled")
 
-    def podswielt_wybor(self, even=None):
+    def podswielt_wybor(self, okno):
         
-        self.after(10, self._wykonaj_malowanie)
+        self.after(10, self._wykonaj_malowanie(okno))
 
 
     def usun_haslo(self):
@@ -157,14 +159,16 @@ class PasswordGenerator(ctk.CTk):
         except :
             print("Nic nie zaznaczono")
         
+   
+    def _wykonaj_malowanie(self, okno):
+       #Czyscimy okna i zaznaczamy w odpowiedniej zakładce 
+       self.after(10,lambda: self._wykonaj_malowanie(okno))
+       okno.tag_remove("active_line", "1.0", "end")
+       #Robimy to tylko w konkretnym oknie
+       okno.tag_add("active_line", "insert linestart", "insert lineend + 1c")
+       okno.configure(state="disabled")
 
-    def _wykonaj_malowanie(self):
-       #Czyscimy stare podswietlenie okna
-        self.wybierz.configure(state="normal")
-        self.wybierz.tag_remove("active_line", "1.0", "end")
-        self.wybierz.tag_add("active_line", "insert linestart", "insert lineend +1c")
-        self.wybierz.configure(state="disabled")
-
+       
     def save_quit(self):
         linie = self.textbox.get("1.0", "end-1c").splitlines()
 
