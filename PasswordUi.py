@@ -3,6 +3,8 @@ import random
 import string
 import json 
 import os 
+import pyperclip
+
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -37,6 +39,8 @@ class PasswordGenerator(ctk.CTk):
 
         self.button_add = ctk.CTkButton(self.tabview.tab("Generator"), text="GENERUJ HASŁO", command=self.generuj_haslo, cursor="hand2")
         self.button_add.pack(pady=10)
+
+        
     #----Hasła do wyboru ------
 
         self.wybierz = ctk.CTkTextbox(self.tabview.tab("Generator"), width=200, height=200, state ="disabled")
@@ -49,6 +53,8 @@ class PasswordGenerator(ctk.CTk):
 
         self.button_add2 = ctk.CTkButton(self.tabview.tab("Generator"), text = "ZAPISZ WYBRANE HASŁA", command=self.zapisz_hasla, cursor="hand2")
         self.button_add2.pack(pady=10)
+        self.button_copy = ctk.CTkButton(self.tabview.tab("Generator"), text="SKOPIUJ HASŁO", command=self.kopiuj_haslo, cursor="hand2")
+        self.button_copy.pack(pady=10)
         #---- Zakładka: Wygenerowane -----
         self.wygenerowane = ctk.CTkLabel(self.tabview.tab("Wygenerowane"), text="Wygenerowane hasło:")
         self.wygenerowane.pack(pady=10)
@@ -133,7 +139,7 @@ class PasswordGenerator(ctk.CTk):
 
     def podswielt_wybor(self, okno):
         
-        self.after(10, self._wykonaj_malowanie(okno))
+        self.after(10, lambda: self._wykonaj_malowanie(okno))
 
 
     def usun_haslo(self):
@@ -162,7 +168,7 @@ class PasswordGenerator(ctk.CTk):
    
     def _wykonaj_malowanie(self, okno):
        #Czyscimy okna i zaznaczamy w odpowiedniej zakładce 
-       self.after(10,lambda: self._wykonaj_malowanie(okno))
+       
        okno.tag_remove("active_line", "1.0", "end")
        #Robimy to tylko w konkretnym oknie
        okno.tag_add("active_line", "insert linestart", "insert lineend + 1c")
@@ -171,15 +177,23 @@ class PasswordGenerator(ctk.CTk):
        
     def save_quit(self):
         linie = self.textbox.get("1.0", "end-1c").splitlines()
-
-        
-
-        
-
         with open(SCIEZKA_PLIKU, "w", encoding="utf-8") as plik:
             json.dump(linie, plik, indent=4, ensure_ascii=False)
-
         self.destroy()
+
+    def kopiuj_haslo(self):
+        schowek = self.wybierz.get("insert linestart", "insert lineend").strip()
+        if schowek:
+            pyperclip.copy(schowek)
+            self.polehasla.configure(text="Hasło skopiowane do schowka")
+
+        
+
+        
+
+        
+
+        
 
     
 
