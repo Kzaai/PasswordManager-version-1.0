@@ -54,6 +54,9 @@ class PasswordGenerator(ctk.CTk):
         self.wygenerowane.pack(pady=10)
         self.textbox = ctk.CTkTextbox(self.tabview.tab("Wygenerowane"), width=300, height=400, font=("Arial", 16), state ="disabled")
         self.textbox.pack(pady=10)
+
+        self.button_delete = ctk.CTkButton(self.tabview.tab("Wygenerowane"), text="USUŃ HASŁO", command=self.usun_haslo, cursor="hand2")
+        self.button_delete.pack(pady=10)
         #-----Pzycissk Zapisu na dole -----
 
         self.button_save = ctk.CTkButton(self, text="ZAPISZ I WYJDŹ ", command=self.save_quit, cursor="hand2")
@@ -110,7 +113,7 @@ class PasswordGenerator(ctk.CTk):
 
 
             if wybrane not in self.textbox.get("1.0", "end"):
-                self.textbox.insert("end", f"{wybrane} + \n")
+                self.textbox.insert("end", f"{wybrane}\n")
 
 
                 #Usuwam jedno haslo z listy wyboru
@@ -127,6 +130,30 @@ class PasswordGenerator(ctk.CTk):
     def podswielt_wybor(self, even=None):
         
         self.after(10, self._wykonaj_malowanie)
+
+
+    def usun_haslo(self):
+        try:
+            self.textbox.configure(state="normal")
+            wybrane = self.textbox.get("insert linestart", "insert lineend").strip()
+
+            if not wybrane:
+                print("Nic nie zaznaczono")
+                return
+            
+            
+            tresc = self.textbox.get("1.0", "end")
+            #Usuwamy zaznaczenie
+            nowa_tresc = tresc.replace(wybrane, "")
+
+            self.textbox.delete("1.0", "end")
+            self.textbox.insert("1.0", nowa_tresc.strip())
+            
+            print(f"Usunieto : {wybrane}")  
+            self.textbox.configure(state="disabled")
+        
+        except :
+            print("Nic nie zaznaczono")
         
 
     def _wykonaj_malowanie(self):
